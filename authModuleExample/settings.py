@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,18 @@ INSTALLED_APPS = [
     'authAppExample',
 ]
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+    'ALGORITHM': 'HS256',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,6 +63,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK={
+    'DEFAULT_PERMISSION_CLASSES' : {
+        'rest_framework.permission.AllowAny',
+    },
+    'DEFAULT_AUTHENTICATION_CLASSES':{
+        'rest_framework_simp lejwt.authentication.JWTAuthentication',
+    }
+}
 
 ROOT_URLCONF = 'authModuleExample.urls'
 
@@ -77,8 +99,12 @@ WSGI_APPLICATION = 'authModuleExample.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.posgresql_psycopg2',
+        'NAME':'dbvavglu4d3r8n',
+        'USER': 'gemizlnmjanvyn',
+        'PASSWORD': 'b29b128bcbc598df244da746958ef7e7e7bcfd3a95863308320f89fc2526afa0',
+        'HOST': 'ec2-34-230-110-100.compute-1.amazonaws.com',
+        'PORT': '5434'
     }
 }
 
